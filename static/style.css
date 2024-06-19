@@ -1,0 +1,590 @@
+
+
+
+.nav_container {
+  width: 200px;
+  height: 650px;
+  background-color: rgb(70, 68, 68);
+  border: 1px solid rgb(190, 192, 196);
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  /* Add box-shadow to simulate 3D effect */
+  box-shadow: 5px 5px 10px rgba(248, 248, 248, 0.1); /* Adjust values as needed */
+}
+
+
+.main_nav {
+  margin-top: 70px; /* Adjust the margin-top to create space between nav items and the top */
+  list-style: none;
+   /* Remove default list styles */
+}
+
+.main_nav li {
+  margin-bottom: 5px; /* Add margin between list items */
+}
+
+.btn {
+  width: 95%;
+  text-align: center; 
+  margin-top: 15px;
+  margin-left: -14px;
+  border-radius: 7px;/* Align button text to the left */
+}
+.logo{
+  width:150px;
+  height:70px;
+  background-color: rgb(70, 68, 68);
+  margin-left: 27px;
+  margin-top: 12px;
+  text-align: center;
+  color: white;
+}
+.custom-div {
+  width: 400px;
+  height: 200px;
+  margin-right: -100px;
+  margin-top: 50px; 
+  margin-left: 120px;/* Gap between divs */
+}
+
+/* Remove margin from last div in a row */
+.custom-div:last-child {
+  margin-right: 0;
+}
+.attendance_table {
+  width: 1028px;
+  height: "auto";
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 7px;
+  background-color: rgb(255, 255, 255);
+  margin-left: 317px;
+  margin-top: 8px;
+  /* Add 3D effect */
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateZ(10px);
+}
+
+.attend_h4 {
+  margin-left: 316px;
+  margin-top: 50px;
+  
+   transform: translateZ(10px);
+}
+
+
+
+.form_reg {
+  width: 1100px;
+  height: 650px;
+  border: 1px solid black;
+  border-radius: 7px;
+  background-image: url("{{ url_for('static', filename='background.png') }}");
+  background-size: cover; /* Adjust as needed */
+  background-position: center; /* Adjust as needed */
+  margin-left: 300px;
+  margin-top: 30px;
+  /* Additional CSS properties */
+}
+
+.form-row1_reg{
+  width:880px;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+.gender_male{
+  margin-left: 4px;
+}
+.gender_female{
+  margin-left: 6px;
+}
+.gender{
+  margin-left: 18px;
+}
+.address_add1{
+  margin-left: 18px;
+  width:648px;
+  margin-top: 14px;
+}
+.city_div{
+width:267px;
+margin-left: 18px;
+margin-top: 14px;
+}
+.pos_div{
+  width:267px;
+  margin-left: 18px;
+  margin-top: 14px;
+}
+.second_row{
+  width:1000px;
+  margin-top: -508px;
+  margin-left: 350px;
+}
+.pos_div2{
+  width:330px;
+  margin-left: 1px;
+  margin-top: 14px;
+}
+.dob{
+  width:330px;
+  margin-left: 1px;
+  margin-top: 82px;
+}
+.top{
+  width:905px;
+  height:18px;
+}
+.image_upload{
+  width:300px;
+  margin-left: 354px;
+  margin-top: 18px;
+}
+.submit_btn{
+ margin-left: 47px;
+ width:678px;
+ margin-top: 85px;
+}
+.cover{
+  width:300px;
+  height:700px;
+  margin-left: 1000px;
+  margin-top: -715px;
+  border-radius: 7px;
+}
+.cover_img{
+  width:399px;
+  height:700px;
+  border-radius: 7px;
+}
+.pos_3{
+  margin-left: 18px;
+}
+.table_container{
+  width:1200px;
+  margin-left: 180px;
+  margin-top: 90px;
+  border:"1px solid black";
+  border-radius: 10px;
+
+}
+.edit{
+  column-span: 2;
+}
+.space{
+  column-gap: 5px;
+}
+.logout_a{
+  text-decoration: none;
+  color:white;
+}
+.logout{
+  margin-left: 65px;
+  margin-top: 150px;
+}
+/* /static/style.css */
+
+.custom-btn {
+  background-color: #9a9d9a; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove borders */
+  box-shadow: 5px 5px 10px rgba(250, 248, 248, 0.1);
+}
+
+.custom-btn:hover {
+  background-color: #f6f6f6; /* Darker green on hover */
+}
+.shedule_div{
+  width:800px;
+  height:500px;
+  background-color: #aaaaaf;
+  border:"1px solid black";
+  border-radius: 7px;
+  margin-left: 350px;
+  margin-top: 80px;
+  padding-top: 50px;
+}
+.custon_delete{
+  width:120%;
+}
+/* /static/style.css */
+
+.custom-btn {
+  background-color: #757775; /* Green background */
+  color: white; /* White text */
+  border: none; /* Remove borders */
+}
+
+.custom-btn:hover {
+  background-color: #b1b3b1; /* Darker green on hover */
+}
+.submit_shedule{
+  margin-left: 15px;
+}
+.shedule_container{
+  margin-top: 30px;
+}
+body {
+ background-color: #f0f0f0;
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+.schedule_container{
+  width:1100px;
+  margin-left: 135px;
+  margin-top: 20px;
+  padding:5px;
+}
+.shebule_h{
+  margin-top: 70px;
+  margin-left: 700px;
+  color:white;
+}
+.emp_search{
+  width:300px;
+  margin-left: 135px;
+  margin-top: 25px;
+}
+.h4_empdetails{
+  color:black;
+  margin-left: 135px;
+}
+.att_search{
+  width:260px;
+  margin-left: 80px;
+  margin-top: 25px;
+}
+.att_date_search{
+  width:260px;
+  margin-left: 400px;
+  margin-top: -52px;
+}
+.attendance_h{
+color:black;
+margin-left: 81px;
+}
+.ab_table{
+  width:1100px;
+  margin-left: 300px;
+  margin-top: 50px;
+}
+.att_table{
+  margin-top: -2px;
+  margin-left: 79px;
+  width:1100px;
+}
+.add_h3{
+  margin-top:100px ;
+  margin-left: 315px;
+}
+.ad_h1{
+  color:white;
+}
+.log_text{
+  
+  width:260px;
+  margin-left: 500px;
+
+}
+.admin{
+  color:white;
+  margin-left: 530px;
+}
+.log_btn{
+  width:260px;
+  margin-left: 500px;
+}
+.log{
+  margin-top: 170px;
+}
+.display_sum{
+  margin-left: 150px;
+  margin-top: 120px;
+}
+h4{
+  color: white;
+}
+.leave_tb{
+  margin-top: 260px;
+}
+.btn_edit_sh{
+  width:50px;
+}
+.th_shedule{
+  width:200px;
+  
+}
+.position_sh{
+  margin-left: 190px;
+  margin-top: -2px;
+}
+.edit_emp{
+  width:70px;
+}
+
+/* nav bar start */
+.side-nav {
+  background-color: #d9d9d9;
+  height: 100vh;
+  position: fixed;
+  width: 200px;
+  top: 0;
+  left: 0;
+  padding: 20px 0;
+}
+.side-nav .nav-link {
+  color: #333;
+  padding: 10px 20px;
+}
+.side-nav .nav-link.active {
+  background-color: #007bff;
+  color: white;
+}
+.content {
+  margin-left: 220px;
+  padding: 20px;
+}
+.custom-card {
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.custom-card h4 {
+  margin: 0;
+}
+.nav-position{
+  margin-left: -5px;
+}
+.height{
+  height:50px;
+  padding-bottom: 5px;
+}
+.left{
+  margin-left: 15px;
+}
+.nav-link {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px 0;
+  color: #000;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width:200px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #add8e6;
+  color: #000;
+  box-shadow: 0 2px #666;
+  transform: translateY(-2px);
+}
+
+.nav-link:active {
+  box-shadow: 0 2px #666;
+  transform: translateY(2px);
+  background-color: #007bff;
+}
+.size{
+  width:230px;
+}
+.nav-link .bi {
+  margin-right: 8px;
+}
+
+.nav-link .bi-house-door-fill {
+  color: #007bff; /* Blue */
+}
+
+.nav-link .bi-calendar-check-fill {
+  color: #28a745; /* Green */
+}
+
+.nav-link .bi-person-fill {
+  color: #17a2b8; /* Cyan */
+}
+
+.nav-link .bi-clock-fill {
+  color: #ffc107; /* Yellow */
+}
+
+.nav-link .bi-file-earmark-medical-fill {
+  color: #fd7e14; /* Orange */
+}
+
+.nav-link .bi-graph-up {
+  color: #6f42c1; /* Purple */
+}
+
+.nav-link .bi-box-arrow-right {
+  color: #dc3545; /* Red */
+}
+.height_mb4{
+  height:150px;
+  margin-right: 10px;
+}
+.height_mb4-1{
+ margin-right: 50px;
+ margin-left: 100px;
+}
+.table_container_dtls{
+  width:1200px;
+  margin-left: 135px;
+  margin-top: 5px;
+}
+.add_new_emp{
+  width:100px;
+  margin-left: 1235px;
+}
+.add_new_emp_a{
+  font-style: none;
+  color:white;
+}
+.table th {
+  background-color: black;
+  color: white;
+}
+.action-buttons {
+  display: flex;
+  gap: 5px;
+  margin-right: 2px;
+}
+.action-buttons .btn {
+  margin-right: 5px;
+}
+.edit{
+  margin-right: 10px;
+}
+.edit_emp{
+  width:70px;
+  position: relative;
+  left: -8px;
+}
+.delete_emp{
+  width: 70px;
+}
+
+.emp_search_schedule{
+margin-left: 135px;
+margin-top: 37px;
+width:230px;
+}
+.h_schedule{
+  margin-left: 135px;
+  margin-top: 100px;
+}
+.add_new_schedule{
+  width:100px;
+  margin-left: 1130px;
+  height: 40px;
+  text-align: center;
+}
+.btn_edit_sch{
+  width:100px;
+  
+}
+.text_at{
+  margin-left: 135px;
+  width: 280px;
+  margin-left: 400px;
+  margin-top: -77px;
+}
+.text_dt{
+  margin-left: 135px;
+  width: 280px;
+  margin-left: 560px;
+  margin-top: -77px;
+}
+.bth_sch_search{
+  width:90px;
+  margin-left: 720px;
+  margin-top: -95px;
+}
+/* nav bar end */
+
+
+
+   /* Add your custom CSS styles here */
+
+    /* Center the modals vertically and horizontally */
+    .popup-box {
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .popup-box label {
+      font-weight: bold;
+    }
+    
+    .popup-box .form-control {
+      margin-bottom: 10px;
+    }
+    .btn_edit_sh{
+      width:75px;
+    }
+    .leave_table{
+      width:1100px;
+    }
+    .leave_container{
+      margin-left: 250px;
+      margin-top: 55px;
+    }
+    .leave_search{
+      width:230px;
+    }
+    .summary_table{
+      width:1180px;
+      margin-left: 260px;
+    }
+    .summary_search{
+      width:230px;
+    }
+    .summary_search{
+      margin-left: 250px;
+      margin-left: -2px;
+    }
+    .btn_summary{
+      margin-left: 3px;
+    }
+    .btn{
+      margin-left: 7px;
+    }
+    .new_emp{
+      margin-left: 1233px;
+      width:100px;
+    }
+    .new_schedule{
+      margin-left: 1133px;
+      width:100px;
+    }
+    .logo_color{
+      background-color: transparent;
+      
+    }
+    .logo_color_h3{
+      color:#007bff;
+      font-weight: bold;
+    }
+    .logo_color_p{
+      color:black;
+      font-weight: bold;
+    }
+    .log-h2{
+      color: black;
+      
+      
+    }
+    .log_btn{
+      margin-left: 500px;
+      color:#80a8ce;
+    }
+    
