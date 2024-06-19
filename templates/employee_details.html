@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container  summary_table">
+        <h2>Employee Details</h2>
+        <!-- Search Field -->
+        <div class="form-group">
+            <input type="text" class="form-control summary_search" id="searchInput" placeholder="Search by Employee ID" oninput="filterTable()">
+        </div>
+        
+        <table class="table table-bordered" id="employeeTable">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Position</th>
+                    <th>Number of Leaves</th>
+                    <th>Number of Days Attended</th>
+                    <th>Number of Days Absent</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.fname }}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>{{ employee.number_of_leaves }}</td>
+                    <td>{{ employee.number_of_days_attend }}</td>
+                    <td>{{ employee.number_of_absent }}</td>
+                    <td><button class="btn btn-primary  btn_summary" onclick="saveRow(this)">Save</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function saveRow(button) {
+            // Get the row of the clicked button
+            var row = button.closest('tr');
+            var rowData = [];
+            // Get the data from each cell in the row
+            for (var i = 0; i < row.cells.length - 1; i++) { // Exclude the last cell (button cell)
+                rowData.push(row.cells[i].innerText);
+            }
+
+            // Create a string with CSV format
+            var csvContent = "data:text/csv;charset=utf-8," 
+                             + rowData.join(",") + "\n";
+
+            // Create a downloadable link and click it to save the file
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "employee_" + rowData[0] + ".csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("employeeTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0]; // Filter based on the first column (Employee ID)
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    {% include 'home.html' %}
+</body>
+</html>

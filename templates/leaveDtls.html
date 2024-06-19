@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        #searchInput {
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function calculateDays() {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const startDate = row.querySelector('.start-date').textContent;
+                const endDate = row.querySelector('.end-date').textContent;
+                const noDaysCell = row.querySelector('.no-days');
+
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const differenceInTime = end - start;
+                const differenceInDays = (differenceInTime / (1000 * 3600 * 24)) + 1; // Including both start and end dates
+
+                noDaysCell.textContent = differenceInDays;
+            });
+        }
+
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.querySelector('.leave_table');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const idCell = row.querySelector('td:nth-child(1)');
+                const idText = idCell.textContent || idCell.innerText;
+
+                if (idText.toUpperCase().indexOf(filter) > -1) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        window.onload = () => {
+            calculateDays();
+            document.getElementById('searchInput').addEventListener('keyup', filterTable);
+        };
+    </script>
+</head>
+<body>
+    <div class="container leave_container">
+        <h3>Leave Details</h3>
+        <input type="text" id="searchInput" class="form-control leave_search" placeholder="Search by Employee ID">
+        <table class="table leave_table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Number of Days</th>
+                    <th>Reason</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for leave in leaves %}
+                <tr>
+                    <td>{{ leave.id }}</td>
+                    <td>{{ leave.name }}</td>
+                    <td>{{ leave.email }}</td>
+                    <td>{{ leave.leavetype }}</td>
+                    <td class="start-date">{{ leave.stDate }}</td>
+                    <td class="end-date">{{ leave.endDate }}</td>
+                    <td class="no-days"></td>
+                    <td>{{ leave.reason }}</td>
+                    
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'home.html' %}
+</body>
+</html>

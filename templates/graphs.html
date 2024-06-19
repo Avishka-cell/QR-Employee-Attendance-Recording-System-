@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphs</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div>
+        <canvas id="attendanceChart"></canvas>
+    </div>
+    <div>
+        <canvas id="absentChart"></canvas>
+    </div>
+    <div>
+        <canvas id="leaveChart"></canvas>
+    </div>
+
+    <script>
+        // Function to fetch data from Flask routes
+        async function fetchData(url) {
+            const response = await fetch(url);
+            return await response.json();
+        }
+
+        // Function to create Chart.js charts
+        async function createCharts() {
+            // Fetch attendance data
+            const attendanceData = await fetchData('/attendance_data');
+            const attendanceLabels = attendanceData.map(item => item.date);
+            const attendanceValues = attendanceData.map(item => item.hours_worked);
+
+            // Fetch absent employees data
+            const absentData = await fetchData('/absent_data');
+            const absentLabels = absentData.map(item => item.name);
+            const absentValues = absentData.map(item => item.absent_days);
+
+            // Fetch leave data
+            const leaveData = await fetchData('/leave_data');
+            const leaveLabels = leaveData.map(item => item.employee_name);
+            const leaveValues = leaveData.map(item => item.leave_days);
+
+            // Create attendance chart
+            new Chart(document.getElementById('attendanceChart'), {
+                type: 'bar',
+                data: {
+                    labels: attendanceLabels,
+                    datasets: [{
+                        label: 'Hours Worked',
+                        data: attendanceValues
+                    }]
+                }
+            });
+
+            // Create absent employees chart
+            new Chart(document.getElementById('absentChart'), {
+                type: 'bar',
+                data: {
+                    labels: absentLabels,
+                    datasets: [{
+                        label: 'Absent Days',
+                        data: absentValues
+                    }]
+                }
+            });
+
+            // Create leave chart
+            new Chart(document.getElementById('leaveChart'), {
+                type: 'bar',
+                data: {
+                    labels: leaveLabels,
+                    datasets: [{
+                        label: 'Leave Days',
+                        data: leaveValues
+                    }]
+                }
+            });
+        }
+
+        // Call createCharts function when the page loads
+        document.addEventListener('DOMContentLoaded', createCharts);
+    </script>
+</body>
+</html>

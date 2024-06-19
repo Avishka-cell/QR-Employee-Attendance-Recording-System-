@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="/static/style.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          
+        }
+        .card {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #qrcode {
+            margin-top: 20px;
+        }
+        .btn-block{
+          margin-left:5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 class="text-center">QR Code Generator</h2>
+        <form>
+            <div class="form-group">
+                <label for="employeeId">Employee ID</label>
+                <input type="text" class="form-control" id="employeeId" placeholder="Enter Employee ID">
+            </div>
+            <div class="form-group">
+                <label for="adminUsername">Admin Username</label>
+                <input type="text" class="form-control" id="adminUsername" placeholder="Enter Admin Username">
+            </div>
+            <div class="form-group">
+                <label for="adminPassword">Admin Password</label>
+                <input type="password" class="form-control" id="adminPassword" placeholder="Enter Admin Password">
+            </div>
+            <button type="button" class="btn btn-primary btn" onclick="generateQRCode()">Generate QR Code</button>
+            <button type="button" class="btn btn-success btn" onclick="saveQRCode()">Save as PNG</button>
+        </form>
+        <div id="qrcode" class="text-center"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        function generateQRCode() {
+            var employeeId = document.getElementById('employeeId').value;
+            var adminUsername = document.getElementById('adminUsername').value;
+            var adminPassword = document.getElementById('adminPassword').value;
+
+            var qrData = `Employee ID: ${employeeId}\nAdmin Username: ${adminUsername}\nAdmin Password: ${adminPassword}`;
+            var qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = '';
+
+            QRCode.toCanvas(document.createElement('canvas'), qrData, function (error, canvas) {
+                if (error) console.error(error)
+                qrcodeContainer.appendChild(canvas)
+            });
+        }
+
+        function saveQRCode() {
+            html2canvas(document.querySelector("#qrcode canvas")).then(canvas => {
+                var link = document.createElement('a');
+                link.download = 'qrcode.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+    {% include 'home.html' %}
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Report</title>
+</head>
+<body>
+    <h1>Employee Report</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Position</th>
+                <th>Leaves</th>
+                <th>Attendance</th>
+                <th>Absent</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in report_data %}
+            <tr>
+                <td>{{ record.id }}</td>
+                <td>{{ record.position }}</td>
+                <td>{{ record.leaves }}</td>
+                <td>{{ record.attendance }}</td>
+                <td>{{ record.absent }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('report_pdf') }}">Download PDF</a>
+</body>
+</html>

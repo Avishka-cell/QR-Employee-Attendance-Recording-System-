@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="/static/style.css" rel="stylesheet">
+    <script>
+        function filterById() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("employeeIdInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("employeeTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function loadEditForm(schedule) {
+            document.getElementById('edit-id').value = schedule.id;
+            document.getElementById('edit-at').value = schedule.at;
+            document.getElementById('edit-dt').value = schedule.dt;
+            document.getElementById('edit-fd').value = schedule.fd;
+            document.getElementById('edit-td').value = schedule.td;
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="h_schedule">Schedule Details</h3>
+        <div class="mb-3">
+            <input type="text" class="form-control emp_search_schedule" id="employeeIdInput" onkeyup="filterById()" placeholder="Enter employee ID">
+        </div>
+        
+        <button class="btn btn-primary new_schedule" data-bs-toggle="modal" data-bs-target="#addScheduleModal">Add New</button>
+
+        <div class="table-responsive schedule_container">
+            <table class="table table-hover" id="employeeTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Arrival</th>
+                        <th>Departure</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for schedule in schedules %}
+                    <tr>
+                        <td>{{ schedule.id }}</td>
+                        <td>{{ schedule.arrival }}</td>
+                        <td class="th_schedule">{{ schedule.depature }}</td>
+                        <td class="th_schedule">{{ schedule.fromDate }}</td>
+                        <td class="th_schedule">{{ schedule.toDate }}</td>
+                        <td>
+                            <button class="btn btn-primary btn_edit_sh" data-bs-toggle="modal" data-bs-target="#editScheduleModal" onclick="loadEditForm({{ schedule|tojson }})">Edit</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% include 'home.html' %}
+
+    <!-- Add Schedule Modal -->
+    <div class="modal fade" id="addScheduleModal" tabindex="-1" aria-labelledby="addScheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addScheduleModalLabel">Add New Schedule</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/submit-schedule" method="POST">
+                        <div class="mb-3">
+                            <label for="employeeId" class="form-label">Employee ID</label>
+                            <input type="text" class="form-control" id="employeeId" name="id" placeholder="Employee ID" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="arrivalTime" class="form-label">Arrival Time</label>
+                            <input type="time" class="form-control" id="arrivalTime" name="at" placeholder="Arrival Time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="departureTime" class="form-label">Departure Time</label>
+                            <input type="time" class="form-control" id="departureTime" name="dt" placeholder="Departure Time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fromDate" class="form-label">From Date</label>
+                            <input type="date" class="form-control" id="fromDate" name="fd" placeholder="From Date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="toDate" class="form-label">To Date</label>
+                            <input type="date" class="form-control" id="toDate" name="td" placeholder="To Date" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary submit_shedule">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Schedule Modal -->
+    <div class="modal fade" id="editScheduleModal" tabindex="-1" aria-labelledby="editScheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editScheduleModalLabel">Edit Schedule</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/edit-schedule" method="POST">
+                        <input type="hidden" id="edit-id" name="id">
+                        <div class="mb-3">
+                            <label for="edit-arrivalTime" class="form-label">Arrival Time</label>
+                            <input type="time" class="form-control" id="edit-at" name="at" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-departureTime" class="form-label">Departure Time</label>
+                            <input type="time" class="form-control" id="edit-dt" name="dt" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-fromDate" class="form-label">From Date</label>
+                            <input type="date" class="form-control" id="edit-fd" name="fd" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-toDate" class="form-label">To Date</label>
+                            <input type="date" class="form-control" id="edit-td" name="td" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary ">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

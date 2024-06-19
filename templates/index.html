@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Scanner</title>
+    <style>
+      #scannerVideo {
+        width: 300px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>QR Code Scanner</h1>
+    <button id="scan-btn">Scan QR Code</button>
+    <video id="scannerVideo" style="display: none"></video>
+    <script src="https://cdn.rawgit.com/schmich/instascan-js/master/instascan.min.js"></script>
+    <script>
+      let scanner = new Instascan.Scanner({
+        video: document.getElementById("scannerVideo"),
+      });
+      scanner.addListener("scan", function (content, image) {
+        alert(`QR code scanned: ${content}`);
+      });
+      Instascan.Camera.getCameras()
+        .then(function (cameras) {
+          if (cameras.length > 0) {
+            scanner.camera = cameras[0];
+            scanner.start();
+            document.getElementById("scannerVideo").style.display = "block";
+          } else {
+            console.error("No cameras found.");
+          }
+        })
+        .catch(function (e) {
+          console.error(e);
+        });
+    </script>
+  </body>
+</html>

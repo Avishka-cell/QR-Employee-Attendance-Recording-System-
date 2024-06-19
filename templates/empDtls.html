@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">zz
+  <title>Employee Details</title>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    <link href="/static/style.css" rel="stylesheet">
+  </script>
+  <script>
+    function confirmDelete(employeeId) {
+      if (confirm("Are you sure you want to delete employee with ID " + employeeId + "?")) {
+        document.getElementById("deleteForm-" + employeeId).submit();
+      } else {
+        event.preventDefault();
+      }
+    }
+
+    function filterById() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("employeeIdInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("employeeTable");
+      tr = table.getElementsByTagName("tr");
+  
+      for (i = 1; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+
+    function loadEditForm(employee) {
+      // Populate the form fields with employee data
+      document.getElementById('editEmployeeId').value = employee.id;
+      document.getElementById('editFirstName').value = employee.fname;
+      document.getElementById('editLastName').value = employee.lname;
+      document.getElementById('editTelephone').value = employee.tpnumber;
+      document.getElementById('editEmail').value = employee.email;
+      document.getElementById('editGenderMale').checked = employee.gender === 'male';
+      document.getElementById('editGenderFemale').checked = employee.gender === 'female';
+      document.getElementById('editAddress').value = employee.address;
+      document.getElementById('editCity').value = employee.city;
+      document.getElementById('editPosition').value = employee.position;
+      document.getElementById('editDOB').value = employee.dob;
+      document.getElementById('editMaritalStatus').value = employee.marital;
+      document.getElementById('editNIC').value = employee.nic;
+      // Set the form action URL
+      document.querySelector('#editEmployeeForm').action = `/edit/${employee.id}`;
+    }
+    
+  </script>
+</head>
+<body>
+  
+<div class="container mt-4">
+  <h4 class="h4_empdetails">Employee Details</h4>
+  <div class="mb-3">
+    <input type="text" class="form-control emp_search" id="employeeIdInput" onkeyup="filterById()" placeholder="Enter employee ID">
+  </div>
+  <button class="btn btn-primary new_emp" data-bs-toggle="modal" data-bs-target="#registrationModal">Add New</button>
+
+  <div class="table_container table_container_dtls">
+    <table class="table table-hover table-sm" id="employeeTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Telephone Number</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>NIC</th>
+          <th>City</th>
+          <th>Marital Status</th>
+          <th>Position</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+        <tr>
+          <td>{{ employee.id }}</td>
+          <td>{{ employee.fname }}</td>
+          <td>{{ employee.lname }}</td>
+          <td>{{ employee.tpnumber }}</td>
+          <td>{{ employee.email }}</td>
+          <td>{{ employee.gender }}</td>
+          <td>{{ employee.address }}</td>
+          <td>{{ employee.nic }}</td>
+          <td>{{ employee.city }}</td>
+          <td>{{ employee.marital }}</td>
+          <td>{{ employee.position }}</td>
+          <td class="action-buttons">
+            <button class="btn btn-primary btn-sm edit_emp" data-bs-toggle="modal" data-bs-target="#editModal" onclick='loadEditForm({{ employee|tojson }})'>Edit</button>
+            <form id="deleteForm-{{ employee.id }}" action="/delete/{{ employee.id }}" method="POST" style="display:inline;">
+              <button type="button" class="btn btn-danger btn-sm delete_emp" onclick="confirmDelete({{ employee.id }})">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include 'home.html' %}
+</div>
+
+<!-- Registration Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Add New Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="popup-box">
+          <!-- Include the registration form here -->
+          <form  action="/register" method="POST">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom01">Employee ID</label>
+                  <input type="text" class="form-control" id="validationCustom01" placeholder="Employee ID" name="id" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom02">First Name</label>
+                  <input type="text" class="form-control" id="validationCustom08" placeholder="First Name " name="fname" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom03">Last Name</label>
+                  <input type="text" class="form-control" id="validationCustom02" placeholder="Last Name" name="lname" required maxlength="10">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label>Gender</label><br>
+                  <input type="radio" value="male" name="gender" class="gender_male">Male
+                  <input type="radio" value="female" name="gender" class="gender_female">Female
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom04">Address</label>
+                  <input type="text" class="form-control" placeholder="Address" name="address" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom05">City</label>
+                  <input type="text" class="form-control" id="validationCustom05" placeholder="City" name="city" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom06">Position</label>
+                  <select name="position" class="form-control" id="validationCustom06" required>
+                    <option value="">Select a position</option>
+                    <option value="UX Designer">UX Designer</option>
+                    <option value="cloud Engineer">cloud Engineer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Database Administrator">Head of a Subject</option>
+                    <option value="ML Engineer">ML Engineer</option>
+                    <option value="AI Specialist">AI Specialist</option>
+                    <option value="Mobile App Developer">Mobile App Developer</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom07">Date of Birth</label>
+                  <input type="date" class="form-control" id="validationCustom07" placeholder="Date of Birth" name="dob" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom08">Telephone Number</label>
+                  <input type="text" class="form-control" id="validationCustom03" placeholder="Telephone Number" name="tp" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom09">Email</label>
+                  <input type="email" class="form-control" id="validationCustom09" placeholder="Email" name="email" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom10">Marital Status</label>
+                  <select name="marital" class="form-control" id="validationCustom10" required>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="validationCustom11">NIC</label>
+                  <input type="text" class="form-control" id="validationCustom11" placeholder="NIC" name="nic" required>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="popup-box">
+        <!-- Include the edit form here -->
+        <form>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="editEmployeeId">Employee ID</label>
+                <input type="text" class="form-control" id="editEmployeeId" placeholder="Employee ID" name="id" readonly>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editLastName">First Name</label>
+                <input type="text" class="form-control" id="editFirstName" placeholder="First Name" name="fname" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editTelephone">Last Name</label>
+                <input type="text" class="form-control" id="editLastName" placeholder="Last Name" name="lname" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label>Gender</label><br>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="editGenderMale" value="male" name="gender">
+                  <label class="form-check-label" for="editGenderMale">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="editGenderFemale" value="female" name="gender">
+                  <label class="form-check-label" for="editGenderFemale">Female</label>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editAddress">Address</label>
+                <input type="text" class="form-control" id="editAddress" placeholder="Address" name="address" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editCity">City</label>
+                <input type="text" class="form-control" id="editCity" placeholder="City" name="city" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="editPosition">Position</label>
+                <select name="position" class="form-control" id="editPosition" required>
+                  <option value="">Select a position</option>
+                  <option value="UX Designer">UX Designer</option>
+                  <option value="cloud Engineer">cloud Engineer</option>
+                  <option value="Backend Developer">Backend Developer</option>
+                  <option value="Database Administrator">Head of a Subject</option>
+                  <option value="ML Engineer">ML Engineer</option>
+                  <option value="AI Specialist">AI Specialist</option>
+                  <option value="Mobile App Developer">Mobile App Developer</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editDOB">Date of Birth</label>
+                <input type="date" class="form-control" id="editDOB" placeholder="Date of Birth" name="dob" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editFirstName">Telephone Number</label>
+                <input type="text" class="form-control" id="editTelephone" placeholder="Telephone Number" name="tp" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="editEmail">Email</label>
+                <input type="email" class="form-control" id="editEmail" placeholder="Email" name="email" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editMaritalStatus">Marital Status</label>
+                <select name="marital" class="form-control" id="editMaritalStatus" required>
+                  <option value="single">Single</option>
+                  <option value="married">Married</option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="editNIC">NIC</label>
+                <input type="text" class="form-control" id="editNIC" placeholder="NIC" name="nic" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

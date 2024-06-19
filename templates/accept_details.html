@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accepted Leave Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3>Accepted Leave Details</h3>
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by Employee ID">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Number of Days</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>{{ row.leavetype }}</td>
+                    <td>{{ row.stDate }}</td>
+                    <td>{{ row.endDate }}</td>
+                    <td>{{ row.noDate }}</td>
+                    <td>{{ row.reason }}</td>
+                    <td>{{ row.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.querySelector('table');
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const idCell = row.querySelector('td:nth-child(1)');
+                const idText = idCell.textContent || idCell.innerText;
+
+                if (idText.toUpperCase().indexOf(filter) > -1) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', filterTable);
+    </script>
+    {% include 'home.html' %}
+</body>
+</html>
